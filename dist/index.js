@@ -11,6 +11,9 @@ const port = process.env.PORT || 8000;
 app.get('/', (req, res) => {
     res.send('Welcome to API Restful: Express + TS + Nodemon + Jest + Swagger + Mongoose');
 });
+app.get('/hello', (req, res) => {
+    res.send('Welcome to GET Route: Hello');
+});
 app.listen(port, () => {
     console.log(`EXPRESS SERVER: Running at http://localhost:${port}`);
 });
