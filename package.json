@@ -1,0 +1,30 @@
+{
+  "name": "code-verifier-backend",
+  "version": "1.0.0",
+  "description": "Backend Node + Express + TS + Swagger",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/katiaku/code-verifier-backend.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "typescript",
+    "swagger",
+    "mongoose"
+  ],
+  "author": "@katiaku",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/katiaku/code-verifier-backend/issues"
+  },
+  "homepage": "https://github.com/katiaku/code-verifier-backend#readme",
+  "dependencies": {
+    "dotenv": "^16.2.0",
+    "express": "^4.18.2"
+  }
+}
