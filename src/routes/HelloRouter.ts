@@ -19,3 +19,5 @@ helloRouter.route('/')
         // Send the response to the client
         return res.send(response);
     })
+
+    export default helloRouter;
