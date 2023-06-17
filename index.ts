@@ -10,8 +10,13 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Welcome to API Restful: Express + TS + Nodemon + Jest + Swagger + Mongoose');
 });
 
-app.get('/hello', (req: Request, res: Response) => {
-    res.send('Welcome to GET Route: Hello');
+app.get('/hello/:name?', (req: Request, res: Response) => {
+    const { name } = req.params;
+    if(!name) {
+        res.json({"message": "Hello, anonymous"});
+    } else {
+        res.json({"message": `Hello, ${name}`});
+    }
 });
 
 app.get('/goodbye', (req: Request, res: Response) => {
