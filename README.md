@@ -29,3 +29,10 @@
     20. webpack-node-externals: a Webpack plugin that allows excluding Node.js modules from the bundled output
     21. webpack-shell-plugin: a Webpack plugin to run shell commands before or after the build process
 
+## npm scripts
+
+    1. "build": "npx tsc" - invoke the TypeScript Compiler (tsc) to compile TypeScript code into JavaScript
+    2. "start": "node dist/index.js" - start the Node.js runtime and run the JavaScript code in the "index.js" file located in the "dist" directory
+    3. "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"" - instruct TypeScript compiler to watch for changes in the source code, automatically recompile the TypeScript files whenever a change occurs AND start the Node.js application using nodemon, which will monitor for changes in the compiled JavaScript files and automatically restart the application whenever a change occurs SIMULTANEOUSLY
+    4. "test": "jest" - run tests with Jest testing framework
+    5. "serve:coverage": "npm run test && cd coverage/lcov-report && npx serve" - run the "test" script, generate the code coverage report in the "coverage/lcov-report" directory, start a web server to serve the code coverage report files
