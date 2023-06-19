@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
-import server from '@/server';
-import { LogError, LogSuccess } from "@/utils/logger";
+import server from './src/server';
+import { LogError, LogSuccess } from "./src/utils/logger";
 
 dotenv.config();
 

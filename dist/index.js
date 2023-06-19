@@ -4,8 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
-const server_1 = __importDefault(require("@/server"));
-const logger_1 = require("@/utils/logger");
+const server_1 = __importDefault(require("./src/server"));
+const logger_1 = require("./src/utils/logger");
 dotenv_1.default.config();
 const port = process.env.PORT || 8000;
 server_1.default.listen(port, () => {
