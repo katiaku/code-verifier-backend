@@ -4,6 +4,9 @@
 
     1. dotenv: loads environment variables from a .env file
     2. express: Node.js framework
+    3. cors: Cross-Origin Resource Sharing allows to specify which domains are allowed to make requests to the server, what HTTP methods are allowed, and what headers can be sent
+    4. helmet: security middleware that sets appropriate HTTP headers
+    5. mongoose: Object Data Modeling (ODM) library for MongoDB and Node.js
 
 ### DevDependencies (development purposes only)
 
@@ -28,6 +31,7 @@
     19. webpack-cli: command-line interface for Webpack
     20. webpack-node-externals: a Webpack plugin that allows excluding Node.js modules from the bundled output
     21. webpack-shell-plugin: a Webpack plugin to run shell commands before or after the build process
+    22. @types/cors: type definition package for the cors module in TypeScript projects
 
 ## Npm Scripts
 
