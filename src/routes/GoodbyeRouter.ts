@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { GoodbyeController } from "../controller/GoodbyeController";
 import { LogInfo } from "../utils/logger";
+import { BasicResponse } from "src/controller/types";
 
 // Router from express
 let goodbyeRouter = express.Router();
@@ -15,7 +16,7 @@ goodbyeRouter.route('/')
         // Controller Instance to execute method
         const controller: GoodbyeController = new GoodbyeController();
         // Obtain Response
-        const response = await controller.getMessage(name);
+        const response: BasicResponse = await controller.getMessage(name);
         // Send the response to the client
         return res.send(response);
     });
