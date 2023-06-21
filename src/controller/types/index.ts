@@ -2,7 +2,8 @@
  * Basic JSON response for controllers
  */
 export type BasicResponse = {
-    message: string
+    message: string,
+    date: string
 }
 
 /**

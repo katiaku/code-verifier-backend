@@ -1,13 +1,13 @@
 import { BasicResponse } from "./types";
-import { IHelloController } from "./interfaces";
+import { IGoodbyeController } from "./interfaces";
 import { LogSuccess } from "../utils/logger";
 
-export class HelloController implements IHelloController {
+export class GoodbyeController implements IGoodbyeController {
     public async getMessage(name?: string): Promise<BasicResponse> {
         const currentDate = new Date().toDateString();
-        LogSuccess('[/api/hello] Get Request');
+        LogSuccess('[/api/goodbye] Get Request');
         return {
-            message: `Hello ${name || "world"}`,
+            message: `Goodbye ${name || "world"}`,
             date: currentDate
         }
     }
