@@ -1,5 +1,8 @@
 import express, { Express, Request, Response } from "express";
 
+// Swagger
+import swaggerUi from 'swagger-ui-express';
+
 // Security
 import cors from 'cors';
 import helmet from 'helmet';
@@ -11,6 +14,18 @@ import rootRouter from '../routes';
 
 // * Create Express APP
 const server: Express = express();
+
+// * Swagger Config and route
+server.use(
+    '/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(undefined, {
+        swaggerOptions: {
+            url: "/swagger.json",
+            explorer: true
+        }
+    })
+);
 
 // * Define SERVER to use "/api" rootRouter from 'index.ts' in routes
 // From this point: http://localhost:8000/api/...
