@@ -11,6 +11,7 @@ import helmet from 'helmet';
 
 // Root Router
 import rootRouter from '../routes';
+import mongoose from "mongoose";
 
 // * Create Express APP
 const server: Express = express();
@@ -38,6 +39,7 @@ server.use(
 server.use(express.static('public'));
 
 // TODO: Mongoose Connection
+mongoose.connect('mongodb://localhost:27017/codeverification');
 
 // * Security Config
 server.use(helmet());
