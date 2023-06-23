@@ -7,3 +7,8 @@ export interface IHelloController {
 export interface IGoodbyeController {
     getMessage(name?: string): Promise<BasicResponse>
 }
+
+export interface IUsersController {
+    // Read all users from database
+    getUsers(): Promise<any>
+}
