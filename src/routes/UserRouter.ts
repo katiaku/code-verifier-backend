@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { UserController } from "../controller/UserController";
-import { LogInfo } from "../utils/logger"
+import { LogInfo } from "src/utils/logger";
 
 // Router from express
 let userRouter = express.Router();
