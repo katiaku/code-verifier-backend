@@ -18,6 +18,15 @@ export const getAllUsers = async (): Promise<any[] | undefined> => {
 
 // TODO:
 // - Get User By ID
+export const getUserByID = async (id: string) : Promise<any | undefined> => {
+    try {
+        let userModel = userEntity();
+        return await userModel.findById(id)
+    } catch (error) {
+        LogError(`[ORM ERROR]: Getting User By ID: ${error}`);
+    }
+}
+
 // - Get User By Email
 // - Delete User By ID
 // - Create New User

@@ -9,8 +9,6 @@ export interface IGoodbyeController {
 }
 
 export interface IUserController {
-    // Read all users from database
-    getUsers(): Promise<any>
-    // Find User by ID (ObjectID)
-    getUserByID(id: string): Promise<any> 
+    // Read all users from database || get User by ID
+    getUsers(id?: string): Promise<any> 
 }
