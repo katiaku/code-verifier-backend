@@ -6,7 +6,7 @@ import { LogSuccess, LogError } from "../../utils/logger";
 /**
  * Method to obtain all users from collection "Users" in Mongo Server
  */
-export const GetAllUsers = async (): Promise<any[] | undefined> => {
+export const getAllUsers = async (): Promise<any[] | undefined> => {
     try {
         let userModel = userEntity();
         // Search all users
