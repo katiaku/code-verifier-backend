@@ -1,9 +1,9 @@
-import { Get, Query, Route, Tags, Delete, Post } from "tsoa";
+import { Get, Query, Route, Tags, Delete, Post, Put } from "tsoa";
 import { IUserController } from "./interfaces";
 import { LogSuccess, LogError, LogWarning } from "../utils/logger";
 
 // ORM - Users Collection
-import { deleteUserByID, getAllUsers, getUserByID, createUser } from "../domain/orm/User.orm";
+import { deleteUserByID, getAllUsers, getUserByID, createUser, updateUserByID } from "../domain/orm/User.orm";
 
 @Route("/api/users")
 @Tags("UserController")
@@ -59,6 +59,25 @@ export class UserController implements IUserController {
                 message: `User created successfully: ${user.name}`
             }
         })
+        return response;
+    }
+
+    @Put("/")
+    public async updateUser(@Query()id: string, user: any): Promise<any> {
+        let response: any = '';
+        if(id) {
+            LogSuccess(`[/api/users] Update User By ID: ${id}`);
+            await updateUserByID(id, user).then((r) => {
+                response: {
+                    message: `User with id ${id} updated successfully`
+                }
+            })
+        } else {
+            LogWarning('[/api/users] Update User Request WITHOUT ID');
+            response = {
+                message: 'Please, provide an ID to update an existing user'
+            }
+        }
         return response;
     }
 }

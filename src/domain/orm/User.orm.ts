@@ -48,4 +48,15 @@ export const createUser = async (user: any): Promise<any | undefined> => {
     }
 }
 
+// - Update User By ID
+export const updateUser = async (id: string, user: any): Promise<any | undefined> => {
+    try {
+        let userModel = userEntity();
+        // Update User
+        return await userModel.findByIdAndUpdate(id, user);
+    } catch (error) {
+        LogError(`[ORM ERROR]: Updating User ${id}: ${error}`);
+    }
+}
+
 // - Get User By Email
