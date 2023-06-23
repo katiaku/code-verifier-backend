@@ -1,15 +1,17 @@
-import { Get, Query, Route, Tags } from "tsoa";
+import { Get, Query, Route, Tags, Delete, Post } from "tsoa";
 import { IUserController } from "./interfaces";
 import { LogSuccess, LogError, LogWarning } from "../utils/logger";
 
 // ORM - Users Collection
-import { deleteUserByID, getAllUsers, getUserByID } from "../domain/orm/User.orm";
+import { deleteUserByID, getAllUsers, getUserByID, createUser } from "../domain/orm/User.orm";
 
 @Route("/api/users")
 @Tags("UserController")
 export class UserController implements IUserController {
     /**
      * Endpoint to retrieve the Users in the Collection "Users" of DB
+     * @param {string} id Id of user to retrieve (optional)
+     * @returns All users or user found by ID
     */
     @Get("/")
     public async getUsers(@Query()id?: string): Promise<any> {
@@ -23,7 +25,12 @@ export class UserController implements IUserController {
         }
         return response;
     }
-
+    
+    /**
+     * Endpoint to delete the Users in the Collection "Users" of DB
+     * @param {string} id Id of user to delete (optional)
+     * @returns Message informing if deletion was correct
+    */
     @Delete("/")
     public async deleteUser(@Query()id?: string): Promise<any> {
         let response: any = '';
@@ -40,6 +47,18 @@ export class UserController implements IUserController {
                 message: 'Please, provide an ID to remove from database'
             }
         }
+        return response;
+    }
+
+    @Post("/")
+    public async createUser(user: any): Promise<any> {
+        let response: any = '';
+        await createUser(user).then((r) => {
+            LogSuccess(`[/api/users] Create User: ${user}`);
+            response = {
+                message: `User created successfully: ${user.name}`
+            }
+        })
         return response;
     }
 }
