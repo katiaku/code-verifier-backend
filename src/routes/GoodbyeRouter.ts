@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import { GoodbyeController } from "../controller/GoodbyeController";
-import { LogInfo } from "src/utils/logger";
+import { LogInfo } from "../utils/logger";
 import { BasicResponse } from "src/controller/types";
 
 // Router from express

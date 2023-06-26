@@ -37,7 +37,7 @@ export class UserController implements IUserController {
         if(id) {
             LogSuccess(`[/api/users] Delete User By ID: ${id}`);
             await deleteUserByID(id).then((r) => {
-                response: {
+                response = {
                     message: `User with id ${id} deleted successfully`
                 }
             })
@@ -67,8 +67,8 @@ export class UserController implements IUserController {
         let response: any = '';
         if(id) {
             LogSuccess(`[/api/users] Update User By ID: ${id}`);
-            await updateUserByID(id, user).then((r) => {
-                response: {
+            await updateUserByID(id, user).then((r: any) => {
+                response = {
                     message: `User with id ${id} updated successfully`
                 }
             })

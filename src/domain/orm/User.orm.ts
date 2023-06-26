@@ -49,7 +49,7 @@ export const createUser = async (user: any): Promise<any | undefined> => {
 }
 
 // - Update User By ID
-export const updateUser = async (id: string, user: any): Promise<any | undefined> => {
+export const updateUserByID = async (id: string, user: any): Promise<any | undefined> => {
     try {
         let userModel = userEntity();
         // Update User
