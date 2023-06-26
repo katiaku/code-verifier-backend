@@ -29,7 +29,7 @@ userRouter.route('/')
         // Obtain Response
         const response: any = await controller.deleteUser(id);
         // Send the response to the client
-        return res.status(response.status).send(response);
+        return res.status(200).send(response);
     })
     // POST:
     .post(async (req: Request, res: Response) => {
@@ -66,7 +66,7 @@ userRouter.route('/')
         // Obtain Response
         const response: any = await controller.updateUser(id, user);
         // Send the response to the client
-        return res.status(response.status).send(response);
+        return res.status(200).send(response);
     })
 
 export default userRouter;
