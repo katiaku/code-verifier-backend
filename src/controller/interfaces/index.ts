@@ -18,3 +18,10 @@ export interface IUserController {
     // Update user
     updateUser(id: string, user: any): Promise<any>
 }
+
+export interface IKataController {
+    getKatas(id?: string): Promise<any>
+    createKata(kata: any): Promise<any>
+    deleteKata(id?:string): Promise<any>
+    updateKata(id:string, kata: any): Promise<any>
+}
