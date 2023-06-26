@@ -17,7 +17,7 @@ userRouter.route('/')
         // Obtain Response
         const response: any = await controller.getUsers(id);
         // Send the response to the client
-        return res.send(response);
+        return res.status(200).send(response);
     })
     // DELETE:
     .delete(async (req: Request, res: Response) => {
@@ -29,7 +29,7 @@ userRouter.route('/')
         // Obtain Response
         const response: any = await controller.deleteUser(id);
         // Send the response to the client
-        return res.send(response);
+        return res.status(response.status).send(response);
     })
     // POST:
     .post(async (req: Request, res: Response) => {
@@ -46,7 +46,7 @@ userRouter.route('/')
         // Obtain Response
         const response: any = await controller.createUser(user);
         // Send the response to the client
-        return res.send(response);
+        return res.status(201).send(response);
     })
     // PUT:
     .put(async (req: Request, res: Response) => {
@@ -66,7 +66,16 @@ userRouter.route('/')
         // Obtain Response
         const response: any = await controller.updateUser(id, user);
         // Send the response to the client
-        return res.send(response);
+        return res.status(response.status).send(response);
     })
 
 export default userRouter;
+
+/**
+ * 
+ * Get Documents => 200 OK
+ * Creation Documents => 201 OK
+ * Deletion of Documents => 200 (Entity) / 204 (No return)
+ * Update of Documents => 200 (Entity) / 204 (No return)
+ * 
+ */
