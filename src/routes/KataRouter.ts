@@ -8,10 +8,10 @@ import bodyParser from "body-parser";
 let jsonParser = bodyParser.json();
 
 // Router from express
-let katasRouter = express.Router();
+let kataRouter = express.Router();
 
 // http://localhost:8000/api/users?id=6253dc47f30baed4c6de7f99
-katasRouter.route('/')
+kataRouter.route('/')
     // GET:
     .get(async (req: Request, res: Response) => {
         // Obtain a Query Param (ID)
@@ -131,7 +131,7 @@ katasRouter.route('/')
     })
 
 // Export Users Router
-export default katasRouter;
+export default kataRouter;
 
 /**
  * 
