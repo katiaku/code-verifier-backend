@@ -4,8 +4,8 @@ import { LogSuccess, LogError, LogWarning } from "../utils/logger";
 import { getAllKatas, getKataByID, updateKataByID, deleteKataByID, createKata } from "../domain/orm/Kata.orm";
 
 @Route("/api/katas")
-@Tags("KatasController")
-export class KatasController implements IKataController {
+@Tags("KataController")
+export class KataController implements IKataController {
     /**
      * Endpoint to retreive the katas in the Collection "Katas" of DB 
      * @param {string} id Id of Kata to retreive (optional)
