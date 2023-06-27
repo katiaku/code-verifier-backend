@@ -30,9 +30,7 @@ server.use('/', rootRouter); // http://localhost:8000/api/
 server.use('/hello', helloRouter); // http://localhost:8000/api/hello --> HelloRouter
 server.use('/goodbye', goodbyeRouter);  // http://localhost:8000/api/goodbye --> GoodbyeRouter
 server.use('/users', userRouter); // http://localhost:8000/api/users --> UserRouter
-// Katas routes
 server.use('/katas', kataRouter); // http://localhost:8000/api/katas --> KataRouter
-// Auth routes
 server.use('/auth', authRouter); // http://localhost:8000/api/auth --> AuthRouter
 
 export default server;

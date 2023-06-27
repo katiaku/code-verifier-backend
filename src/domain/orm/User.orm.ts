@@ -18,75 +18,87 @@ const secret = process.env.SECRETKEY || 'MYSECRETKEY';
  * Method to obtain all users from collection "Users" in Mongo Server
  */
 export const getAllUsers = async (): Promise<any[] | undefined> => {
+
     try {
         let userModel = userEntity();
         // Search all users
         return await userModel.find({ isDeleted: false })
     } catch (error) {
-        LogError(`[ORM ERROR]: Getting All Users: ${error}`);
+        LogError(`[ORM ERROR]: Getting all users: ${error}`);
     }
+
 }
 
 // TODO:
 // - Get User By ID
 export const getUserByID = async (id: string) : Promise<any | undefined> => {
+
     try {
         let userModel = userEntity();
         return await userModel.findById(id)
     } catch (error) {
-        LogError(`[ORM ERROR]: Getting User By ID: ${error}`);
+        LogError(`[ORM ERROR]: Getting user by ID: ${error}`);
     }
+
 }
 
 // - Delete User By ID
 export const deleteUserByID = async (id: string): Promise<any | undefined> => {
+
     try {
         let userModel = userEntity();
         return await userModel.deleteOne({ _id: id })
     } catch (error) {
-        LogError(`[ORM ERROR]: Deleting User By ID: ${error}`);
+        LogError(`[ORM ERROR]: Deleting user by ID: ${error}`);
     }
+
 }
 
 // - Create New User
 export const createUser = async (user: any): Promise<any | undefined> => {
+
     try {
         let userModel = userEntity();
         // Create / Insert new User
         return await userModel.create(user);
     } catch (error) {
-        LogError(`[ORM ERROR]: Creating User: ${error}`);
+        LogError(`[ORM ERROR]: Creating user: ${error}`);
     }
+
 }
 
 // - Update User By ID
 export const updateUserByID = async (id: string, user: any): Promise<any | undefined> => {
+
     try {
         let userModel = userEntity();
         // Update User
         return await userModel.findByIdAndUpdate(id, user);
     } catch (error) {
-        LogError(`[ORM ERROR]: Updating User ${id}: ${error}`);
+        LogError(`[ORM ERROR]: Updating user ${id}: ${error}`);
     }
+
 }
 
 // - Get User By Email
 
 // Register User
 export const registerUser = async (user: IUser): Promise<any | undefined> => {
+
     try {
         let userModel = userEntity();
         return await userModel.create(user);
     } catch (error) {
-        LogError(`[ORM ERROR]: Registering User: ${error}`);
+        LogError(`[ORM ERROR]: Registering user: ${error}`);
     }
+
 }
 
 // Login User
 export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
+
     try {
         let userModel = userEntity();
-
         let userFound: IUser | undefined = undefined;
         let token = undefined;
 
@@ -94,16 +106,16 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
         await userModel.findOne({email: auth.email}).then((user: IUser) => {
             userFound = user;
         }).catch((error) => {
-            console.error(`[ERROR Authentication in ORM]: User Not Found`);
-            throw new Error(`[ERROR Authentication in ORM]: User Not Found: ${error}`);
+            console.error(`[ERROR Authentication in ORM]: User not found`);
+            throw new Error(`[ERROR Authentication in ORM]: User not found: ${error}`);
         });
 
-        // Check if Password is Valid (compare with bcrypt)
+        // Check if the password is valid (compare with bcrypt)
         let validPassword = bcrypt.compareSync(auth.password, userFound!.password);
 
         if(!validPassword) {
-            console.error(`[ERROR Authentication in ORM]: Password Not Valid`);
-            throw new Error(`[ERROR Authentication in ORM]: Password Not Valid`);
+            console.error(`[ERROR Authentication in ORM]: Password is not valid`);
+            throw new Error(`[ERROR Authentication in ORM]: Password is not valid`);
         }
 
         // Generate JWT
@@ -117,8 +129,9 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
         }
 
     } catch (error) {
-        LogError(`[ORM ERROR]: Creating User: ${error}`);
+        LogError(`[ORM ERROR]: Creating user: ${error}`);
     }
+
 }
 
 // Logout User

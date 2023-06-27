@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 export const kataEntity = () => {
+
     let kataSchema = new mongoose.Schema(
         {
             name: { type: String, required: true },
@@ -12,7 +13,7 @@ export const kataEntity = () => {
             solution: { type: String, required: true },
             participants: { type: [], required: true },
         }
-
-    )
+    );
+    
     return mongoose.model("Katas", kataSchema);
 }

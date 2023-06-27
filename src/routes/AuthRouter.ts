@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 // Middleware
 import { verifyToken } from '../middlewares/verifyToken.middleware';
 
-// Body Parser (Read JSON from Body in Requests)
+// Body Parser (read JSON from body in requests)
 import bodyParser from 'body-parser';
 
 // Middleware to read JSON in Body
@@ -35,10 +35,10 @@ authRouter.route('/register')
                 age
             }
 
-            // Controller Instance to execute method
+            // Controller instance to execute method
             const controller: AuthController = new AuthController();
             
-            // Obtain Response
+            // Obtain response
             const response: any = await controller.registerUser(newUser);
 
             // Send the response to the client
@@ -65,7 +65,7 @@ authRouter.route('/login')
                 password: password
             }
             
-            // Obtain Response
+            // Obtain response
             const response: any = await controller.loginUser(auth);
 
             // Send the response to the client (includes the JWT to authorize requests)
@@ -77,7 +77,7 @@ authRouter.route('/login')
         }
     });
 
-// Route Protected by VERIFY TOKEN Middleware
+// Route protected by VERIFY TOKEN middleware
 authRouter.route('/me')
     .get(verifyToken, async (req: Request, res: Response) => {
 
@@ -86,10 +86,10 @@ authRouter.route('/me')
 
         if(id) {
 
-            // Controller: Auth Controller
+            // Controller: auth controller
             const controller: AuthController = new AuthController();
 
-            // Obtain response from Controller
+            // Obtain response from controller
             let response: any = await controller.userData(id);
 
             // If user is authorised:

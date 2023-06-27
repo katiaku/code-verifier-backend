@@ -9,13 +9,15 @@ import { deleteUserByID, getAllUsers, getUserByID, createUser, updateUserByID } 
 @Tags("UserController")
 export class UserController implements IUserController {
     /**
-     * Endpoint to retrieve the Users in the Collection "Users" of DB
-     * @param {string} id Id of user to retrieve (optional)
+     * Endpoint to retrieve users in the collection "Users" of DB
+     * @param {string} id User ID to retrieve (optional)
      * @returns All users or user found by ID
     */
     @Get("/")
     public async getUsers(@Query()id?: string): Promise<any> {
+
         let response: any = '';
+
         if(id) {
             LogSuccess(`[/api/users] Get User By ID: ${id}`);
             response = await getUserByID(id);
@@ -26,17 +28,21 @@ export class UserController implements IUserController {
             response = await getAllUsers();
             // TODO: remove passwords from response
         }
+
         return response;
+
     }
     
     /**
-     * Endpoint to delete the Users in the Collection "Users" of DB
-     * @param {string} id Id of user to delete (optional)
+     * Endpoint to delete users in the collection "Users" of DB
+     * @param {string} id User ID to delete (optional)
      * @returns Message informing if deletion was correct
     */
     @Delete("/")
     public async deleteUser(@Query()id?: string): Promise<any> {
+
         let response: any = '';
+
         if(id) {
             LogSuccess(`[/api/users] Delete User By ID: ${id}`);
             await deleteUserByID(id).then((r) => {
@@ -50,25 +56,31 @@ export class UserController implements IUserController {
                 message: 'Please, provide an ID to remove from database'
             }
         }
+
         return response;
+
     }
 
     @Put("/")
     public async updateUser(@Query()id: string, user: any): Promise<any> {
+
         let response: any = '';
+
         if(id) {
-            LogSuccess(`[/api/users] Update User By ID: ${id}`);
+            LogSuccess(`[/api/users] Update user by ID: ${id}`);
             await updateUserByID(id, user).then((r: any) => {
                 response = {
                     message: `User with id ${id} updated successfully`
                 }
             })
         } else {
-            LogWarning('[/api/users] Update User Request WITHOUT ID');
+            LogWarning('[/api/users] Update user request WITHOUT ID');
             response = {
                 message: 'Please, provide an ID to update an existing user'
             }
         }
+
         return response;
+
     }
 }

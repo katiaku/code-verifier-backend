@@ -8,13 +8,13 @@ import { LogSuccess } from "../utils/logger";
 export class HelloController implements IHelloController {
     /**
      * Endpoint to retrieve a message "Hello {name}" in JSON
-     * @param { string | undefined } name Name of user to be greeted
-     * @returns { BasicResponse } Promise of BasicResponse
+     * @param { string | undefined } name Username to get a greeting
+     * @returns { BasicResponse } Promise of basic response
      */
     @Get("/")
     public async getMessage(@Query()name?: string): Promise<BasicResponse> {
         const currentDate = new Date().toDateString();
-        LogSuccess('[/api/hello] Get Request');
+        LogSuccess('[/api/hello] Get request');
         return {
             message: `Hello ${name || "world"}`,
             date: currentDate

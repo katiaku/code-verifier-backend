@@ -10,12 +10,12 @@ let goodbyeRouter = express.Router();
 goodbyeRouter.route('/')
     // GET:
     .get(async(req: Request, res: Response) => {
-        // Obtain a Query Param
+        // Obtain a query param
         let name: any = req?.query?.name;
         LogInfo(`Query Param: ${name}`);
-        // Controller Instance to execute method
+        // Controller instance to execute method
         const controller: GoodbyeController = new GoodbyeController();
-        // Obtain Response
+        // Obtain response
         const response: BasicResponse = await controller.getMessage(name);
         // Send the response to the client
         return res.send(response);

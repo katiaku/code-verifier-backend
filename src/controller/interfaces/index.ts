@@ -10,7 +10,7 @@ export interface IGoodbyeController {
 }
 
 export interface IUserController {
-    // Read all users from database || get User by ID
+    // Read all users from DB || Get user by ID
     getUsers(id?: string): Promise<any>
     // Delete user by ID
     deleteUser(id?: string): Promise<any>
@@ -26,8 +26,6 @@ export interface IKataController {
 }
 
 export interface IAuthController {
-    // Register users
     registerUser(user: IUser): Promise<any>
-    // Login user
     loginUser(auth: any): Promise<any>
 }

@@ -1,15 +1,15 @@
 import express, { Request, Response } from "express";
 import { UserController } from "../controller/UserController";
 import { LogInfo } from "../utils/logger";
-
-// Body Parser to read BODY from requests
 import bodyParser from 'body-parser';
 
 let jsonParser = bodyParser.json();
 
 // BCRYPT for passwords
 import bcrypt from 'bcrypt';
+
 import { isNumberObject } from "util/types";
+import { verifyToken } from "src/middlewares/verifyToken.middleware";
 
 // Router from express
 let userRouter = express.Router();
@@ -18,40 +18,40 @@ let userRouter = express.Router();
 userRouter.route('/')
 
     // GET:
-    .get(async(req: Request, res: Response) => {
-        // Obtain a Query Param (ID)
+    .get(verifyToken, async(req: Request, res: Response) => {
+        // Obtain a query param (ID)
         let id: any = req?.query?.id;
         LogInfo(`Query Param: ${id}`);
-        // Controller Instance to execute method
+        // Controller instance to execute method
         const controller: UserController = new UserController();
-        // Obtain Response
+        // Obtain response
         const response: any = await controller.getUsers(id);
         // Send the response to the client
         return res.status(200).send(response);
     })
 
     // DELETE:
-    .delete(async (req: Request, res: Response) => {
-        // Obtain a Query Param (ID)
+    .delete(verifyToken, async (req: Request, res: Response) => {
+        // Obtain a query param (ID)
         let id: any = req?.query?.id;
         LogInfo(`Query Param: ${id}`);
-        // Controller Instance to execute method
+        // Controller instance to execute method
         const controller: UserController = new UserController();
-        // Obtain Response
+        // Obtain response
         const response: any = await controller.deleteUser(id);
         // Send the response to the client
         return res.status(200).send(response);
     })
 
     // PUT:
-    .put(async (req: Request, res: Response) => {
-        // Obtain a Query Param (ID)
+    .put(verifyToken, async (req: Request, res: Response) => {
+        // Obtain a query param (ID)
         let id: any = req?.query?.id;
         let name: any = req?.query?.name;
         let email: any = req?.query?.email;
         let age: any = req?.query?.age;
         LogInfo(`Query Param: ${id}, ${name}, ${age}, ${email}`);
-        // Controller Instance to execute method
+        // Controller instance to execute method
         const controller: UserController = new UserController();
         let user = {
             name: name || 'default',

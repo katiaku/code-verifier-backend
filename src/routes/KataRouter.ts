@@ -1,43 +1,41 @@
 import express, { Request, Response } from "express";
 import { KataController  } from "../controller/KataController";
 import { LogInfo } from "../utils/logger";
-
-// Body Parser to read BODY from requests
 import bodyParser from "body-parser";
 
 let jsonParser = bodyParser.json();
-
-// Router from express
 let kataRouter = express.Router();
 
 // http://localhost:8000/api/users?id=6253dc47f30baed4c6de7f99
 kataRouter.route('/')
     // GET:
     .get(async (req: Request, res: Response) => {
-        // Obtain a Query Param (ID)
+        // Obtain a query param (ID)
         let id: any = req?.query?.id;
         LogInfo(`Query Param: ${id}`);
-        // Controller Instance to excute method
+        // Controller instance to excute method
         const controller: KataController = new KataController();
-        // Obtain Reponse
+        // Obtain reponse
         const response: any = await controller.getKatas(id)
         // Send to the client the response
         return res.status(200).send(response);
     })
+
     // DELETE:
     .delete(async (req:Request, res: Response) => {
-        // Obtain a Query Param (ID)
+        // Obtain a query param (ID)
         let id: any = req?.query?.id;
         LogInfo(`Query Param: ${id}`);
-        // Controller Instance to excute method
+        // Controller instance to excute method
         const controller: KataController = new KataController();
-        // Obtain Reponse
+        // Obtain reponse
         const response: any = await controller.deleteKata(id);
         // Send to the client the response
         return res.status(200).send(response);
     })
+
     .put(jsonParser, async (req:Request, res: Response) => {
-        // Obtain a Query Param (ID)
+        // Obtain a query param (ID)
         let id: any = req?.query?.id;
         
         // Read from body
@@ -52,8 +50,8 @@ kataRouter.route('/')
 
 
         if(name && description && level && intents >= 0 && stars >= 0 && creator && solution && participants.length >= 0){
-            // Controller Instance to excute method
-            const controller: KatasController = new KatasController();
+            // Controller instance to excute method
+            const controller: KataController = new KataController();
 
             let kata: IKata = {
                 name: name,
@@ -66,18 +64,19 @@ kataRouter.route('/')
                 participants: participants
             }
 
-            // Obtain Response
+            // Obtain response
             const response: any = await controller.updateKata(id, kata);
 
-            // Send to the client the response
+            // Send the response to the client
             return res.status(200).send(response);
 
         }else {
             return res.status(400).send({
-                message: '[ERROR] Updating Kata. You need to send all attrs of Kata to update it'
+                message: '[ERROR] Updating Kata. You need to send all attrs of kata to update it'
             });
         }
     })
+
     .post(jsonParser, verifyToken, async (req: Request, res: Response) => {
         // Read from body
         let name: string = req?.body?.name;
@@ -103,7 +102,7 @@ kataRouter.route('/')
         console.log('Kata:', kataSent)
 
         if(name && description && level && intents >= 0 && stars >= 0 && creator && solution && participants.length >= 0) {
-            // Controller Instance to excute method
+            // Controller instance to excute method
             const controller: KataController = new KataController();
 
             let kata: IKata = {
@@ -117,7 +116,7 @@ kataRouter.route('/')
                 participants: participants
             }
 
-            // Obtain Response
+            // Obtain response
             const response: any = await controller.createKata(kata);
 
             // Send to the client the response

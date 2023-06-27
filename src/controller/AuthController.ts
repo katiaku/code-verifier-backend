@@ -18,17 +18,17 @@ export class AuthController implements IAuthController {
         let response: any = '';
 
         if(user) {
-            LogSuccess(`[/api/auth/register] Register User: ${user.email}`);
+            LogSuccess(`[/api/auth/register] Register user: ${user.email}`);
             await registerUser(user).then((r) => {
-                LogSuccess(`[/api/auth/register] Created User: ${user.email}`);
+                LogSuccess(`[/api/auth/register] User created: ${user.email}`);
                 response = {
                     message: `User created successfully: ${user.name}`
                 }
             });
         } else {
-            LogWarning('[/api/auth/register] Register needs User Entity');
+            LogWarning('[/api/auth/register] Register needs user entity');
             response = {
-                message: 'User not Registered: Please, provide a User Entity to create one'
+                message: 'User not registered: please, provide a user entity'
             }
         }
 
@@ -42,16 +42,16 @@ export class AuthController implements IAuthController {
         let response: AuthResponse | ErrorResponse | undefined;
 
         if(auth) {
-            LogSuccess(`[/api/auth/login] Login User: ${auth.email}`);
+            LogSuccess(`[/api/auth/login] Login user: ${auth.email}`);
             let data = await loginUser(auth);
             response = {
                 token: data.token,
                 message: `Welcome, ${data.user.name}`
             }
         } else {
-            LogWarning('[/api/auth/login] Register needs Auth Entity (email && password)');
+            LogWarning('[/api/auth/login] Register needs auth entity (email && password)');
             response = {
-                error: '[AUTH ERROR]: Email & Password are needed',
+                error: '[AUTH ERROR]: Email & password are needed',
                 message: 'Please, provide email && password to login'
             }
         }
@@ -61,10 +61,10 @@ export class AuthController implements IAuthController {
     }
 
     /**
-     * Endpoint to retrieve the User in the Collection "Users" of DB
+     * Endpoint to retrieve theuser in the collection "Users" of DB
      * Middleware: Validate JWT
      * In headers you must add the x-access-token with a valid JWT
-     * @param {string} id Id of user to retrieve (optional)
+     * @param {string} id User ID to retrieve (optional)
      * @returns All users or user found by ID
     */
     @Get("/me")
@@ -75,18 +75,22 @@ export class AuthController implements IAuthController {
         if(id) {
             LogSuccess(`[/api/users] Get User Data By ID: ${id}`);
             response = await getUserByID(id);
-            // Remove the password
+            // Remove password
             response.password = '';
         }
 
         return response;
+
     }
 
     @Post("/logout")
     public async logoutUser(): Promise<any> {
+
         let response: any = '';
+
         // TODO: Close session of user
         throw new Error("Method not implemented.");
+        
     }
 
 }
