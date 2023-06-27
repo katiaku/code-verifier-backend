@@ -2,8 +2,15 @@ import { userEntity } from "../entities/User.entity";
 import { LogSuccess, LogError } from "../../utils/logger";
 import { IUser } from "../interfaces/IUser.interface";
 import { IAuth } from "../interfaces/IAuth.interface";
+import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
+// Configuration of environment variables
+dotenv.config();
+
+// Obtain Secret key to generate JWT
+const secret = process.env.SECRETKEY || 'MYSECRETKEY';
 
 // CRUD
 
@@ -80,32 +87,34 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
     try {
         let userModel = userEntity();
 
-        // Find User by email
-        userModel.findOne({ email: auth.email }, (err: any, user: IUser) => {
+        let userFound: IUser | undefined = undefined;
+        let token = undefined;
 
-            if(err) {
-                // TODO: retur ERROR -> EROR while searching (500)
-            }
+        // Check if user exists by Unique Email
+        await userModel.findOne({email: auth.email}).then((user: IUser) => {
+            userFound = user;
+        }).catch((error) => {
+            console.error(`[ERROR Authentication in ORM]: User Not Found`);
+            throw new Error(`[ERROR Authentication in ORM]: User Not Found: ${error}`);
+        });
 
-            if(!user) {
-                // TODO: retur ERROR -> EROR USER NOT FOUND (404)
-            }
+        // Check if Password is Valid (compare with bcrypt)
+        let validPassword = bcrypt.compareSync(auth.password, userFound!.password);
 
-            // Use Bcrypt to Compare Passwords
-            let validPassword = bcrypt.compareSync(auth.password, user.password);
+        if(!validPassword) {
+            console.error(`[ERROR Authentication in ORM]: Password Not Valid`);
+            throw new Error(`[ERROR Authentication in ORM]: Password Not Valid`);
+        }
 
-            if(!validPassword) {
-                // TODO: --> NOT AUTHORISED (401)
-            }
+        // Generate JWT
+        token = jwt.sign({email: userFound!.email}, secret, {
+            expiresIn: "2h"
+        });
 
-            // Create JWT
-            // TODO: Secret must be in .env
-            let token = jwt.sign({email: user.email}, 'MYSECRETWORD', {
-                expiresIn: "2h"
-            });
-
-            return token;
-        })
+        return {
+            user: userFound,
+            token: token
+        }
 
     } catch (error) {
         LogError(`[ORM ERROR]: Creating User: ${error}`);

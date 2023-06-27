@@ -130,7 +130,6 @@ kataRouter.route('/')
         }
     })
 
-// Export Users Router
 export default kataRouter;
 
 /**

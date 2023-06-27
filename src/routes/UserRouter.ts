@@ -2,6 +2,11 @@ import express, { Request, Response } from "express";
 import { UserController } from "../controller/UserController";
 import { LogInfo } from "../utils/logger";
 
+// Body Parser to read BODY from requests
+import bodyParser from 'body-parser';
+
+let jsonParser = bodyParser.json();
+
 // BCRYPT for passwords
 import bcrypt from 'bcrypt';
 import { isNumberObject } from "util/types";
@@ -36,28 +41,6 @@ userRouter.route('/')
         const response: any = await controller.deleteUser(id);
         // Send the response to the client
         return res.status(200).send(response);
-    })
-
-    // POST:
-    .post(async (req: Request, res: Response) => {
-        let name: any = req?.query?.name;
-        let age: any = req?.query?.age;
-        let email: any = req?.query?.email;
-
-        // let name2: any = req?.body?.name;
-        // LogInfo(`#### NAME in BODY: ${name2}`);
-
-        // Controller Instance to execute method
-        const controller: UserController = new UserController();
-        let user = {
-            name: name || 'default',
-            email: email || 'default email',
-            age: age || 18
-        }
-        // Obtain Response
-        const response: any = await controller.createUser(user);
-        // Send the response to the client
-        return res.status(201).send(response);
     })
 
     // PUT:

@@ -33,6 +33,6 @@ server.use('/users', userRouter); // http://localhost:8000/api/users --> UserRou
 // Katas routes
 server.use('/katas', kataRouter); // http://localhost:8000/api/katas --> KataRouter
 // Auth routes
-server.use('/auth', authRouter);
+server.use('/auth', authRouter); // http://localhost:8000/api/auth --> AuthRouter
 
 export default server;

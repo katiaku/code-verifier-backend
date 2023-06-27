@@ -6,13 +6,22 @@ import { IAuth } from "../domain/interfaces/IAuth.interface";
 // BCRYPT for passwords
 import bcrypt from 'bcrypt';
 
+// Middleware
+import { verifyToken } from '../middlewares/verifyToken.middleware';
+
+// Body Parser (Read JSON from Body in Requests)
+import bodyParser from 'body-parser';
+
+// Middleware to read JSON in Body
+let jsonParser = bodyParser.json();
+
 // Router from express
 let authRouter = express.Router();
 
-authRouter.route('/auth/register')
-    .post (async (req: Request, res: Response) => {
+authRouter.route('/register')
+    .post (jsonParser, async (req: Request, res: Response) => {
 
-        let { name, email, password, age } = req.body;
+        let { name, email, password, age } = req?.body;
         let hashedPassword = '';
 
         if(name && password && email && age) {
@@ -31,15 +40,20 @@ authRouter.route('/auth/register')
             
             // Obtain Response
             const response: any = await controller.registerUser(newUser);
+
             // Send the response to the client
             return res.status(200).send(response);
+        } else {
+            return res.status(400).send({
+                message: '[ERROR User Data missing]: No user can be registered'
+            });
         }
     })
 
-authRouter.route('/auth/login')
-    .post (async (req: Request, res: Response) => {
+authRouter.route('/login')
+    .post (jsonParser, async (req: Request, res: Response) => {
 
-        let { email, password } = req.body;
+        let { email, password } = req?.body;
 
         if(email && password) {
 
@@ -53,9 +67,39 @@ authRouter.route('/auth/login')
             
             // Obtain Response
             const response: any = await controller.loginUser(auth);
+
             // Send the response to the client (includes the JWT to authorize requests)
             return res.status(200).send(response);
+        } else {
+            return res.status(400).send({
+                message: '[ERROR User Data missing]: No user can be registered'
+            });
         }
     });
 
-    export default authRouter;
+// Route Protected by VERIFY TOKEN Middleware
+authRouter.route('/me')
+    .get(verifyToken, async (req: Request, res: Response) => {
+
+        // Obtain the ID of user to check it's data
+        let id: any = req?.query?.id;
+
+        if(id) {
+
+            // Controller: Auth Controller
+            const controller: AuthController = new AuthController();
+
+            // Obtain response from Controller
+            let response: any = await controller.userData(id);
+
+            // If user is authorised:
+            return res.status(200).send(response);
+
+        } else {
+            return res.status(401).send({
+                message: 'You are not authorised to perform this action'
+            })
+        }
+    })
+
+export default authRouter;
