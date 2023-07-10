@@ -13,6 +13,8 @@ export interface IGoodbyeController {
 export interface IUserController {
     // Read all users from DB || Get user by ID
     getUsers(page: number, limit: number, id?: string): Promise<any>
+    // Get katas of the user
+    getKatas(page: number, limit: number, id?: string): Promise<any>
     // Delete user by ID
     deleteUser(id?: string): Promise<any>
     // Update user
@@ -20,7 +22,7 @@ export interface IUserController {
 }
 
 export interface IKataController {
-    getKatas(id?: string): Promise<any>
+    getKatas(page: number, limit: number, id?: string): Promise<any>
     createKata(kata: IKata): Promise<any>
     deleteKata(id?: string): Promise<any>
     updateKata(id: string, kata: IKata): Promise<any>

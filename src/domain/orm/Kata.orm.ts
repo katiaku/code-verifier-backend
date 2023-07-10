@@ -10,17 +10,28 @@ dotenv.config();
 /**
  * Method to obtain all katas from Collection "Katas" in Mongo Server
  */
-export const getAllKatas = async (): Promise<any[] | undefined> => {
+export const getAllKatas = async (page: number, limit: number): Promise<any[] | undefined> => {
 
     try {
         let kataModel = kataEntity();
         let response: any = {};
-        // Search all katas
-        await kataModel.find({ isDeleted: false })
+        // Search all Katas (using pagination)
+        await kataModel.find({isDeleted: false})
+            .select('name level stars')
+            .limit(limit)
+            .skip((page - 1) * limit)
             .exec().then((katas: IKata[]) => {
                 response.katas = katas;
             });
+        
+        // Count total documents in collection "Katas"
+        await kataModel.countDocuments().then((total: number) => {
+            response.totalPages = Math.ceil(total / limit);
+            response.currentPage = page;
+        });
+
         return response;
+
     } catch (error) {
         LogError(`[ORM ERROR]: Getting all katas: ${error}`);
     }

@@ -13,7 +13,7 @@ export class KataController implements IKataController {
      * @returns All katas or the kata found by ID
      */
     @Get("/")
-    public async getKatas(@Query()id?: string): Promise<any> {
+    public async getKatas(@Query()page: number, @Query()limit: number, @Query()id?: string): Promise<any> {
 
         let response: any = '';
         
@@ -22,7 +22,7 @@ export class KataController implements IKataController {
             response = await getKataByID(id);
         } else {
             LogSuccess('[/api/katas] Get all katas request')
-            response = await getAllKatas();
+            response = await getAllKatas(page, limit);
         }
 
         return response;
