@@ -7,6 +7,13 @@
     3. cors: Cross-Origin Resource Sharing allows to specify which domains are allowed to make requests to the server, what HTTP methods are allowed, and what headers can be sent
     4. helmet: security middleware that sets appropriate HTTP headers
     5. mongoose: Object Data Modeling (ODM) library for MongoDB and Node.js
+    6. bcrypt: a library for hashing passwords
+    7. bcryptjs: a JS implementation of the bcrypt algorithm
+    8. body-parser: a middleware for parsing the request body
+    9. jsonwebtoken: a library for generating and verifying JSON Web Tokens used for authentication and authorization
+    10. swagger-jsdoc: generates Swagger/OpenAPI specification documentation based on JSDoc comments in the code
+    11. swagger-ui-express: serves the Swagger UI interface to visualize and interact with a Swagger/OpenAPI specification
+    12. tsoa: generates OpenAPI specifications and routing controllers based on decorators and TypeScript annotations
 
 ### DevDependencies (development purposes only)
 
