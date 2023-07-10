@@ -12,7 +12,7 @@ export interface IGoodbyeController {
 
 export interface IUserController {
     // Read all users from DB || Get user by ID
-    getUsers(id?: string): Promise<any>
+    getUsers(page: number, limit: number, id?: string): Promise<any>
     // Delete user by ID
     deleteUser(id?: string): Promise<any>
     // Update user
