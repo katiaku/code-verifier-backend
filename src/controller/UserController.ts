@@ -83,4 +83,23 @@ export class UserController implements IUserController {
         return response;
 
     }
+
+    // @Get('/katas')
+    // public async  getKatas(@Query()id: string): Promise<any> {
+    //     let response: any = '';
+
+    //     if(id){
+    //         LogSuccess(`[/api/users/katas] Get katas from User By ID: ${id} `);
+    //         response = await getKatasFromUser(id);
+    //     }else {
+    //         LogSuccess('[/api/users/katas] Get all katas without id')
+    //         response = {
+    //             message: 'User ID is needed'
+    //         }
+    //     }
+        
+    //     return response;
+        
+    // }
+
 }

@@ -32,7 +32,8 @@ authRouter.route('/register')
                 name,
                 email,
                 password: hashedPassword,
-                age
+                age,
+                katas: []
             }
 
             // Controller instance to execute method
@@ -45,7 +46,7 @@ authRouter.route('/register')
             return res.status(200).send(response);
         } else {
             return res.status(400).send({
-                message: '[ERROR User Data missing]: No user can be registered'
+                message: '[ERROR User data missing]: No user can be registered'
             });
         }
     })
@@ -72,7 +73,7 @@ authRouter.route('/login')
             return res.status(200).send(response);
         } else {
             return res.status(400).send({
-                message: '[ERROR User Data missing]: No user can be registered'
+                message: '[ERROR User data missing]: No user can be registered'
             });
         }
     });

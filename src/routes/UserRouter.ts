@@ -21,7 +21,7 @@ userRouter.route('/')
     .get(verifyToken, async(req: Request, res: Response) => {
         // Obtain a query param (ID)
         let id: any = req?.query?.id;
-        LogInfo(`Query Param: ${id}`);
+        LogInfo(`Query param: ${id}`);
         // Controller instance to execute method
         const controller: UserController = new UserController();
         // Obtain response
@@ -34,7 +34,7 @@ userRouter.route('/')
     .delete(verifyToken, async (req: Request, res: Response) => {
         // Obtain a query param (ID)
         let id: any = req?.query?.id;
-        LogInfo(`Query Param: ${id}`);
+        LogInfo(`Query param: ${id}`);
         // Controller instance to execute method
         const controller: UserController = new UserController();
         // Obtain response
@@ -50,7 +50,7 @@ userRouter.route('/')
         let name: any = req?.query?.name;
         let email: any = req?.query?.email;
         let age: any = req?.query?.age;
-        LogInfo(`Query Param: ${id}, ${name}, ${age}, ${email}`);
+        LogInfo(`Query param: ${id}, ${name}, ${age}, ${email}`);
         // Controller instance to execute method
         const controller: UserController = new UserController();
         let user = {
@@ -62,7 +62,21 @@ userRouter.route('/')
         const response: any = await controller.updateUser(id, user);
         // Send the response to the client
         return res.status(200).send(response);
-    })
+    });
+
+// http://localhost:8000/api/users?id=6253dc47f30baed4c6de7f99
+// userRouter.route('/katas')
+//     .get(verifyToken, async (req: Request, res: Response) => {
+//         // Obtain a query param (ID)
+//         let id: any = req?.query?.id;
+//         // Controller instance to excute method
+//         const controller: UserController = new UserController();
+//         // Obtain reponse
+//         const response: any = await controller.getKatas(id);
+//         // Send to the client the response
+//         return res.status(200).send(response);
+
+//     });
 
 export default userRouter;
 

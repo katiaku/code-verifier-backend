@@ -1,17 +1,26 @@
 import { kataEntity } from '../entities/Kata.entity';
 import { LogSuccess, LogError } from "../../utils/logger";
+import { IKata  } from "../interfaces/IKata.interface";
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 // CRUD
 
 /**
- * Method to obtain all Katas from Collection "Katas" in Mongo Server
+ * Method to obtain all katas from Collection "Katas" in Mongo Server
  */
 export const getAllKatas = async (): Promise<any[] | undefined> => {
 
     try {
         let kataModel = kataEntity();
+        let response: any = {};
         // Search all katas
-        return await kataModel.find({ isDeleted: false })
+        await kataModel.find({ isDeleted: false })
+            .exec().then((katas: IKata[]) => {
+                response.katas = katas;
+            });
+        return response;
     } catch (error) {
         LogError(`[ORM ERROR]: Getting all katas: ${error}`);
     }
@@ -47,7 +56,7 @@ export const deleteKataByID = async (id: string): Promise<any | undefined> => {
 }
 
 // - Create New Kata
-export const createKata = async (kata: any): Promise<any | undefined> => {
+export const createKata = async (kata: IKata): Promise<any | undefined> => {
 
     try {
         let kataModel = kataEntity();
@@ -60,7 +69,7 @@ export const createKata = async (kata: any): Promise<any | undefined> => {
 }
 
 // - Update Kata By ID
-export const updateKataByID = async (id: string, kata: any): Promise<any | undefined> => {
+export const updateKataByID = async (id: string, kata: IKata): Promise<any | undefined> => {
 
     try {
         let kataModel = kataEntity();

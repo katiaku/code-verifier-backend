@@ -2,14 +2,15 @@ import { Delete, Get, Post, Put, Query, Route, Tags } from "tsoa";
 import { IKataController } from "./interfaces";
 import { LogSuccess, LogError, LogWarning } from "../utils/logger";
 import { getAllKatas, getKataByID, updateKataByID, deleteKataByID, createKata } from "../domain/orm/Kata.orm";
+import { IKata } from "../domain/interfaces/IKata.interface";
 
 @Route("/api/katas")
 @Tags("KataController")
 export class KataController implements IKataController {
     /**
      * Endpoint to retreive katas in the Collection "Katas" of DB 
-     * @param {string} id Id of Kata to retreive (optional)
-     * @returns All katas o kata found by ID
+     * @param {string} id Id of the kata to retreive (optional)
+     * @returns All katas or the kata found by ID
      */
     @Get("/")
     public async getKatas(@Query()id?: string): Promise<any> {
@@ -28,7 +29,7 @@ export class KataController implements IKataController {
     }
 
     @Post("/")
-    public async createKata(kata: any): Promise<any> {
+    public async createKata(kata: IKata): Promise<any> {
 
         let response: any = '';
 
@@ -43,7 +44,7 @@ export class KataController implements IKataController {
         } else {
             LogWarning('[/api/katas] Register needs kata entity')
             response = {
-                message: 'Kata not Registered: Please, provide a kata entity'
+                message: 'Kata not registered: Please, provide a kata entity'
             }
         }
         return response;
@@ -78,7 +79,7 @@ export class KataController implements IKataController {
     }
 
     @Put("/")
-    public async updateKata(@Query()id: string, kata: any): Promise<any> {
+    public async updateKata(@Query()id: string, kata: IKata): Promise<any> {
 
         let response: any = '';
 

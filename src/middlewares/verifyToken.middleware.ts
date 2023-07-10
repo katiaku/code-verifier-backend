@@ -30,8 +30,8 @@ export const verifyToken = (req: Request, res: Response, next: NextFunction) => 
 
         if(err) {
             return res.status(500).send({
-            authenticationError: 'JWT verification failed',
-            message: 'Failed to verify JWT token in request'
+                authenticationError: 'JWT verification failed',
+                åmessage: 'Failed to verify JWT token in request'
             });
         }
 

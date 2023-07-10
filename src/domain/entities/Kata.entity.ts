@@ -1,8 +1,9 @@
 import mongoose from 'mongoose';
+import { IKata } from "../interfaces/IKata.interface";
 
 export const kataEntity = () => {
 
-    let kataSchema = new mongoose.Schema(
+    let kataSchema = new mongoose.Schema<IKata>(
         {
             name: { type: String, required: true },
             description: { type: String, required: true },
@@ -15,5 +16,5 @@ export const kataEntity = () => {
         }
     );
     
-    return mongoose.model("Katas", kataSchema);
+    return mongoose.models.Katas || mongoose.model<IKata>('Katas', kataSchema);
 }

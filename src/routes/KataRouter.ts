@@ -3,13 +3,17 @@ import { KataController  } from "../controller/KataController";
 import { LogInfo } from "../utils/logger";
 import bodyParser from "body-parser";
 
+// JWT Verifier MiddleWare
+import { verifyToken } from '../middlewares/verifyToken.middleware';
+import { KataLevel, IKata } from "../domain/interfaces/IKata.interface";
+
 let jsonParser = bodyParser.json();
 let kataRouter = express.Router();
 
 // http://localhost:8000/api/users?id=6253dc47f30baed4c6de7f99
 kataRouter.route('/')
     // GET:
-    .get(async (req: Request, res: Response) => {
+    .get(verifyToken, async (req: Request, res: Response) => {
         // Obtain a query param (ID)
         let id: any = req?.query?.id;
         LogInfo(`Query Param: ${id}`);
@@ -22,10 +26,10 @@ kataRouter.route('/')
     })
 
     // DELETE:
-    .delete(async (req:Request, res: Response) => {
+    .delete(verifyToken, async (req:Request, res: Response) => {
         // Obtain a query param (ID)
         let id: any = req?.query?.id;
-        LogInfo(`Query Param: ${id}`);
+        LogInfo(`Query param: ${id}`);
         // Controller instance to excute method
         const controller: KataController = new KataController();
         // Obtain reponse
@@ -34,7 +38,7 @@ kataRouter.route('/')
         return res.status(200).send(response);
     })
 
-    .put(jsonParser, async (req:Request, res: Response) => {
+    .put(jsonParser, verifyToken, async (req:Request, res: Response) => {
         // Obtain a query param (ID)
         let id: any = req?.query?.id;
         
@@ -72,7 +76,7 @@ kataRouter.route('/')
 
         }else {
             return res.status(400).send({
-                message: '[ERROR] Updating Kata. You need to send all attrs of kata to update it'
+                message: '[ERROR] Updating kata. You need to send all kata attrs to update it'
             });
         }
     })
@@ -85,7 +89,7 @@ kataRouter.route('/')
         let intents: number = req?.body?.intents || 0;
         let stars: number = req?.body?.stars || 0;
         let creator: string = req?.body?.creator;
-        let solution: string = req?.body?.solution || 'Default Solution';
+        let solution: string = req?.body?.solution || 'Default solution';
         let participants: string[] = req?.body?.participants || [];
 
         let kataSent: IKata = {
@@ -124,7 +128,7 @@ kataRouter.route('/')
 
         } else {
             return res.status(400).send({
-                message: '[ERROR] Creating Kata. You need to send all attrs of Kata to update it'
+                message: '[ERROR] Creating kata. You need to send all attrs of Kata to update it'
             });
         }
     })
