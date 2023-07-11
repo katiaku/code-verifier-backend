@@ -1,8 +1,8 @@
 import { kataEntity } from '../entities/Kata.entity';
 import { LogSuccess, LogError } from "../../utils/logger";
 import { IKata  } from "../interfaces/IKata.interface";
-
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 // CRUD
@@ -57,7 +57,7 @@ export const deleteKataByID = async (id: string): Promise<any | undefined> => {
     try {
         let kataModel = kataEntity();
 
-        // Delete Kata BY ID
+        // Delete Kata By ID
         return await kataModel.deleteOne({ _id: id })
 
     } catch (error) {

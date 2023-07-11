@@ -70,18 +70,21 @@ userRouter.route('/')
     });
 
 // http://localhost:8000/api/users?id=6253dc47f30baed4c6de7f99
-// userRouter.route('/katas')
-//     .get(verifyToken, async (req: Request, res: Response) => {
-//         // Obtain a query param (ID)
-//         let id: any = req?.query?.id;
-//         // Controller instance to excute method
-//         const controller: UserController = new UserController();
-//         // Obtain reponse
-//         const response: any = await controller.getKatas(id);
-//         // Send to the client the response
-//         return res.status(200).send(response);
+userRouter.route('/katas')
+    .get(verifyToken, async (req: Request, res: Response) => {
+         // Obtain a query param (ID)
+        let id: any = req?.query?.id;
+        // Pagination
+        let page: any = req?.query?.id || 1;
+        let limit: any = req?.query?.limit || 10;
+         // Controller instance to excute method
+        const controller: UserController = new UserController();
+         // Obtain reponse
+        const response: any = await controller.getKatas(page, limit, id);
+         // Send to the client the response
+        return res.status(200).send(response);
 
-//     });
+    });
 
 export default userRouter;
 

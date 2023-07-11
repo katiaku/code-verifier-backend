@@ -6,6 +6,9 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { UserResponse } from "../types/UsersResponse.type";
+import { kataEntity } from "../entities/Kata.entity";
+import { IKata } from "../interfaces/IKata.interface";
+import mongoose from "mongoose";
 
 // Configuration of environment variables
 dotenv.config();
@@ -27,7 +30,7 @@ export const getAllUsers = async (page: number, limit: number): Promise<any[] | 
 
         // Search all users (using pagination)
         await userModel.find({isdeleted: false})
-            .select('name email age')
+            .select('name email age katas')
             .limit(limit)
             .skip((page -1) * limit)
             .exec().then((users: IUser[]) => {
@@ -53,7 +56,7 @@ export const getUserByID = async (id: string) : Promise<any | undefined> => {
 
     try {
         let userModel = userEntity();
-        return await userModel.findById(id).select('name email age');
+        return await userModel.findById(id).select('name email age katas');
     } catch (error) {
         LogError(`[ORM ERROR]: Getting user by ID: ${error}`);
     }
@@ -68,19 +71,6 @@ export const deleteUserByID = async (id: string): Promise<any | undefined> => {
         return await userModel.deleteOne({ _id: id })
     } catch (error) {
         LogError(`[ORM ERROR]: Deleting user by ID: ${error}`);
-    }
-
-}
-
-// - Create New User
-export const createUser = async (user: any): Promise<any | undefined> => {
-
-    try {
-        let userModel = userEntity();
-        // Create / Insert new User
-        return await userModel.create(user);
-    } catch (error) {
-        LogError(`[ORM ERROR]: Creating user: ${error}`);
     }
 
 }
@@ -155,4 +145,46 @@ export const loginUser = async (auth: IAuth): Promise<any | undefined> => {
 // Logout User
 export const logoutUser = async (): Promise<any | undefined> => {
     // TODO: NOT IMPLEMENTED
+}
+
+/**
+ * Method to obtain all users from collection "Users" in Mongo Server
+ */
+export const getKatasFromUser = async (page: number, limit: number, id: string): Promise<any[] | undefined> => {
+
+    try {
+        let userModel = userEntity();
+        let katasModel = kataEntity();
+
+        let katasFound: IKata[] = [];
+
+        let response: any = {
+            katas: []
+        };
+
+        await userModel.findById(id).then((user: IUser) => {
+            response.user = user.email;
+            // Create types to search
+            let objectIds: mongoose.Types.ObjectId[] = [];
+            user.katas.forEach((kataID: string) => {
+                let objectID = new mongoose.Types.ObjectId(kataID);
+                objectIds.push(objectID)
+            });
+
+            katasModel.find({"_id": {"$in": objectIds}}).then((katas: IKata[]) => {
+                katasFound = katas;
+            });
+
+        }).catch((error) => {
+            LogError(`[ORM ERROR]: Obtaining user: ${error}`);
+        })
+
+        response.katas = katasFound;
+
+        return response;
+
+    } catch (error) {
+        LogError(`[ORM ERROR]: Getting all users: ${error}`);
+    }
+
 }
