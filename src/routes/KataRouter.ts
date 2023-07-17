@@ -18,12 +18,22 @@ kataRouter.route('/')
         let id: any = req?.query?.id;
         // Pagination
         let page: any = req?.query?.page || 1;
-        let limit: any = req?.query?.limit || 10;        
+        let limit: any = req?.query?.limit || 10;
+        // Filtering parameters
+        let level: any = req?.query?.level;
+        let stars: any = req?.query?.stars;
         LogInfo(`Query Param: ${id}`);
         // Controller instance to excute method
         const controller: KataController = new KataController();
         // Obtain reponse
-        const response: any = await controller.getKatas(page, limit, id)
+        let response: any;
+        if (level) {
+            response = await controller.getKatasFilteredByLevel(page, limit, level);
+        } else if (stars) {
+            response = await controller.getKatasFilteredByStars(page, limit, stars);
+        } else {
+            response = await controller.getKatas(page, limit, id);
+        }
         // Send to the client the response
         return res.status(200).send(response);
     })

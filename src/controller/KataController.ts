@@ -7,6 +7,12 @@ import { IKata } from "../domain/interfaces/IKata.interface";
 @Route("/api/katas")
 @Tags("KataController")
 export class KataController implements IKataController {
+    getKatasFilteredByLevel(page: any, limit: any, level: any): any {
+        throw new Error("Method not implemented.");
+    }
+    getKatasFilteredByStars(page: any, limit: any, stars: any): any {
+        throw new Error("Method not implemented.");
+    }
     /**
      * Endpoint to retreive katas in the Collection "Katas" of DB 
      * @param {string} id Id of the kata to retreive (optional)

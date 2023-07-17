@@ -15,6 +15,7 @@ export const getAllKatas = async (page: number, limit: number): Promise<any[] | 
     try {
         let kataModel = kataEntity();
         let response: any = {};
+        
         // Search all Katas (using pagination)
         await kataModel.find({isDeleted: false})
             .select('name level stars')
@@ -37,6 +38,65 @@ export const getAllKatas = async (page: number, limit: number): Promise<any[] | 
     }
 
 }
+
+// - Get Katas filtered and sorted by difficulty level
+export const getKatasFilteredByLevel = async (page: number, limit: number, level: string): Promise<any[] | undefined> => {
+    try {
+        let kataModel = kataEntity();
+        let response: any = {};
+
+        // Search katas with the specified difficulty level (using pagination)
+        await kataModel.find({ isDeleted: false, level: level })
+            .select('name level stars')
+            .limit(limit)
+            .skip((page - 1) * limit)
+            .exec()
+            .then((katas: IKata[]) => {
+                response.katas = katas;
+            });
+
+        // Count total documents in collection "Katas" with the specified difficulty level
+        await kataModel.countDocuments({ isDeleted: false, level: level })
+            .then((total: number) => {
+                response.totalPages = Math.ceil(total / limit);
+                response.currentPage = page;
+        });
+
+        return response;
+    } catch (error) {
+        LogError(`[ORM ERROR]: Getting katas filtered by level: ${error}`);
+    }
+};
+
+// - Get Katas filtered and sorted by stars
+export const getKatasFilteredByStars = async (page: number, limit: number, stars: number): Promise<any[] | undefined> => {
+    try {
+        let kataModel = kataEntity();
+        let response: any = {};
+
+        // Search katas with the specified number of stars (using pagination)
+        await kataModel.find({ isDeleted: false, stars: stars })
+            .select('name level stars')
+            .limit(limit)
+            .skip((page - 1) * limit)
+            .exec()
+            .then((katas: IKata[]) => {
+                response.katas = katas;
+        });
+
+        // Count total documents in collection "Katas" with the specified number of stars
+        await kataModel
+            .countDocuments({ isDeleted: false, stars: stars })
+            .then((total: number) => {
+                response.totalPages = Math.ceil(total / limit);
+                response.currentPage = page;
+        });
+
+        return response;
+    } catch (error) {
+        LogError(`[ORM ERROR]: Getting katas filtered by stars: ${error}`);
+    }
+};
 
 // - Get Kata By ID
 export const getKataByID = async (id: string) : Promise<any | undefined> => {
