@@ -112,14 +112,16 @@ export const getKataByID = async (id: string) : Promise<any | undefined> => {
 }
 
 // - Delete Kata By ID
-export const deleteKataByID = async (id: string): Promise<any | undefined> => {
+export const deleteKataByID = async (id: string, kata: IKata): Promise<any | undefined> => {
 
     try {
         let kataModel = kataEntity();
-
-        // Delete Kata By ID
-        return await kataModel.deleteOne({ _id: id })
-
+        if(kata.creator !== id) {
+            throw new Error('You are not authorized to edit this kata');
+        } else {
+            // Delete Kata By ID
+            return await kataModel.deleteOne({ _id: id });
+        }
     } catch (error) {
         LogError(`[ORM ERROR]: Deleting kata by ID: ${error}`);
     }
