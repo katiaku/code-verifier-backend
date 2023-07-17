@@ -146,6 +146,26 @@ kataRouter.route('/')
         }
     })
 
+    .post(verifyToken, async (req: Request, res: Response) => {
+        const { kata } = req.params;
+        const { stars } = req.body;
+        const id = req.body;
+
+        try {
+            // Controller instance to execute method
+            const controller: KataController = new KataController();
+
+            // Call the rateKata method in the controller to rate the kata
+            const ratedKata = await controller.rateKata(kata, id, stars);
+
+            // Send the updated kata as the response to the client
+            return res.status(200).json(ratedKata);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    })
+
 export default kataRouter;
 
 /**

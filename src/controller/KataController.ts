@@ -1,18 +1,12 @@
 import { Delete, Get, Post, Put, Query, Route, Tags } from "tsoa";
 import { IKataController } from "./interfaces";
 import { LogSuccess, LogError, LogWarning } from "../utils/logger";
-import { getAllKatas, getKataByID, updateKataByID, deleteKataByID, createKata } from "../domain/orm/Kata.orm";
+import { getAllKatas, getKataByID, updateKataByID, deleteKataByID, createKata, rateKata } from "../domain/orm/Kata.orm";
 import { IKata } from "../domain/interfaces/IKata.interface";
 
 @Route("/api/katas")
 @Tags("KataController")
 export class KataController implements IKataController {
-    getKatasFilteredByLevel(page: any, limit: any, level: any): any {
-        throw new Error("Method not implemented.");
-    }
-    getKatasFilteredByStars(page: any, limit: any, stars: any): any {
-        throw new Error("Method not implemented.");
-    }
     /**
      * Endpoint to retreive katas in the Collection "Katas" of DB 
      * @param {string} id Id of the kata to retreive (optional)
@@ -32,6 +26,23 @@ export class KataController implements IKataController {
         }
 
         return response;
+    }
+
+    public async getKatasFilteredByLevel(page: any, limit: any, level: any): any {
+        throw new Error("Method not implemented.");
+    }
+
+    public async getKatasFilteredByStars(page: any, limit: any, stars: any): any {
+        throw new Error("Method not implemented.");
+    }
+
+    public async rateKata(kata: IKata, id: string, stars: number): Promise<IKata | undefined> {
+        try {
+            // Call the rateKata method from the Kata ORM to rate the kata
+            return await rateKata(kata, id, stars);
+        } catch (error) {
+            LogError(`[Controller ERROR]: Rating kata: ${error}`);
+        }
     }
 
     @Post("/")

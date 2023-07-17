@@ -151,3 +151,38 @@ export const updateKataByID = async (id: string, kata: IKata): Promise<any | und
     }
 
 }
+
+// Rate a Kata
+export const rateKata = async (id: string, kata: IKata, stars: number): Promise<IKata | undefined> => {
+    try {
+        let kataModel = kataEntity();
+
+        // Find the kata by its ID
+        const kataToUpdate = await kataModel.findById(id);
+
+        if (!kataToUpdate) {
+            throw new Error('Kata not found');
+    }
+
+    // Check if the user has already rated the kata
+    const existingRating = kataToUpdate.stars.find((stars) => stars.id === id);
+        if (existingRating) {
+        // If the user has already rated the kata, update their existing rating
+        existingRating.stars = stars;
+        } else {
+            // If the user hasn't rated the kata before, add their new rating to the ratings array
+            kataToUpdate.stars.push({ id, stars });
+        }
+
+        // Calculate the average stars for the kata
+        const totalStars = kataToUpdate.ratings.reduce((sum, stars) => sum + stars, 0);
+        const averageStars = totalStars / kataToUpdate.stars.length;
+        kataToUpdate.stars = averageStars;
+
+        // Save the updated kata
+        await kataToUpdate.save();
+        return kataToUpdate;
+    } catch (error) {
+        LogError(`[ORM ERROR]: Rating kata: ${error}`);
+    }
+};
