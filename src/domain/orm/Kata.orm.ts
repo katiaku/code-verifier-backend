@@ -144,8 +144,12 @@ export const updateKataByID = async (id: string, kata: IKata): Promise<any | und
 
     try {
         let kataModel = kataEntity();
-        // Update Kata
-        return await kataModel.findByIdAndUpdate(id, kata);
+        if(kata.creator !== id) {
+            throw new Error('You are not authorized to edit this kata');
+        } else {
+            // Update Kata
+            return await kataModel.findByIdAndUpdate(id, kata);
+        }
     } catch (error) {
         LogError(`[ORM ERROR]: Updating kata ${id}: ${error}`);
     }
