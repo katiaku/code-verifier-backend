@@ -192,3 +192,29 @@ export const rateKata = async (id: string, kata: IKata, stars: number): Promise<
         LogError(`[ORM ERROR]: Rating kata: ${error}`);
     }
 };
+
+// Attempt to solve a kata and retrieve the stored solution
+export const attemptKata = async (kataId: string, userId: string, solution: string): Promise<string | undefined> => {
+    try {
+        let kataModel = kataEntity();
+
+        // Find the kata by its ID
+        const kataToAttempt = await kataModel.findById(kataId);
+
+        if (!kataToAttempt) {
+            throw new Error('Kata not found');
+        }
+
+        // Save the user's solution in the kata
+        kataToAttempt.solutions.push({ userId, solution });
+
+        // Save the updated kata
+        await kataToAttempt.save();
+
+        // Find and return the stored solution for the user
+        const storedSolution = kataToAttempt.solutions.find((sol) => sol.userId === userId)?.solution;
+        return storedSolution;
+    } catch (error) {
+        LogError(`[ORM ERROR]: Attempting kata: ${error}`);
+    }
+};

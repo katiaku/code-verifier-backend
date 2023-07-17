@@ -1,7 +1,7 @@
 import { Delete, Get, Post, Put, Query, Route, Tags } from "tsoa";
 import { IKataController } from "./interfaces";
 import { LogSuccess, LogError, LogWarning } from "../utils/logger";
-import { getAllKatas, getKataByID, updateKataByID, deleteKataByID, createKata, rateKata } from "../domain/orm/Kata.orm";
+import { getAllKatas, getKataByID, updateKataByID, deleteKataByID, createKata, rateKata, attemptKata } from "../domain/orm/Kata.orm";
 import { IKata } from "../domain/interfaces/IKata.interface";
 
 @Route("/api/katas")
@@ -116,5 +116,14 @@ export class KataController implements IKataController {
 
         return response;
 
+    }
+
+    public async attemptKata(kataId: string, userId: string, solution: string): Promise<string | undefined> {
+        try {
+            // Call the attemptKata method from the Kata ORM to attempt to solve the kata
+            return await attemptKata(kataId, userId, solution);
+        } catch (error) {
+            LogError(`[Controller ERROR]: Attempting kata: ${error}`);
+        }
     }
 }
