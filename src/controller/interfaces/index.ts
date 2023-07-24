@@ -26,6 +26,7 @@ export interface IKataController {
     createKata(kata: IKata): Promise<any>
     deleteKata(id?: string): Promise<any>
     updateKata(id: string, kata: IKata): Promise<any>
+    uploadKataFile(): Promise<any>
 }
 
 export interface IAuthController {

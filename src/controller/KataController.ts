@@ -126,4 +126,10 @@ export class KataController implements IKataController {
             LogError(`[Controller ERROR]: Attempting kata: ${error}`);
         }
     }
+
+    // api/katas/upload
+    @Post("/upload")
+    public async updateKataFile(): Promise<any> {
+        
+    }
 }

@@ -10,6 +10,9 @@ import { KataLevel, IKata } from "../domain/interfaces/IKata.interface";
 let jsonParser = bodyParser.json();
 let kataRouter = express.Router();
 
+// File Uploader
+import fileUpload from 'express-fileupload';
+
 // http://localhost:8000/api/users?id=6253dc47f30baed4c6de7f99
 kataRouter.route('/')
     // GET:
@@ -164,7 +167,41 @@ kataRouter.route('/')
             console.error(error);
             res.status(500).json({ error: 'Internal server error' });
         }
-    })
+    });
+
+    kataRouter.route('/uploadFile')
+        .post(jsonParser, verifyToken, async (req: any, res: any) => {
+            let files: any = req.files;
+            try {
+                if (!files) {
+                    res.send({
+                        status: false,
+                        message: "There was no file found in request",
+                        payload: {},
+                    });
+                } else {
+                    let file = files.file;
+                    file.mv("./uploads" + file.name);
+                    res.send({
+                        status: true,
+                        message: "File was uploaded successfully",
+                        payload: {
+                            name: file.name,
+                            mimetype: file.mimetype,
+                            size: file.size,
+                            // path: "/files/uploads/",
+                            // url: ""
+                        },
+                    });
+                } 
+            } catch (err) {
+                res.status(500).send({
+                    status.false,
+                    message: "Unexpected problem",
+                    payload: {}
+                });
+            }
+        });
 
 export default kataRouter;
 
